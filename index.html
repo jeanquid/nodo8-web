@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodo8 — Inteligencia aplicada a procesos complejos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080b0f;
+            --bg2: #0c1018;
+            --bg3: #101520;
+            --border: #1a2030;
+            --border2: #252f42;
+            --green: #22d97a;
+            --green-dim: rgba(34, 217, 122, 0.12);
+            --green-glow: rgba(34, 217, 122, 0.06);
+            --amber: #f0a830;
+            --blue: #4da8ff;
+            --text: #c8d8e8;
+            --muted: #4a5c72;
+            --dim: #2a3a50;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(8, 11, 15, 0.92);
+            backdrop-filter: blur(12px);
+            border-color: var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--green) !important;
+            border: 1px solid rgba(34, 217, 122, 0.3);
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--green-dim) !important;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, rgba(26, 32, 48, 0.4) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(26, 32, 48, 0.4) 1px, transparent 1px);
+            background-size: 72px 72px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 100%);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(34, 217, 122, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 900px;
+        }
+
+        .hero-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-tag::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1.0;
+            color: #fff;
+            letter-spacing: -3px;
+            margin-bottom: 28px;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--green);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #5a7090;
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: var(--green);
+            color: #080b0f;
+            font-weight: 500;
+            padding: 14px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.15s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 14px 28px;
+            border: 1px solid var(--border2);
+            border-radius: 4px;
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s;
+            display: inline-block;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            border-color: var(--dim);
+        }
+
+        .hero-metrics {
+            display: flex;
+            gap: 48px;
+            margin-top: 72px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .metric-item {}
+
+        .metric-num {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .metric-num span {
+            color: var(--green);
+        }
+
+        .metric-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── SECTION SHARED ── */
+        .section {
+            padding: 100px 48px;
+        }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.05;
+            color: #fff;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        h2 em {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--green);
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            color: #4a5c72;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+
+        /* ── PRODUCTO ESG — FEATURE ── */
+        .esg-feature {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .esg-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 48px;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .esg-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: var(--green-dim);
+            color: var(--green);
+            border: 1px solid rgba(34, 217, 122, 0.2);
+            padding: 4px 12px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .esg-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            line-height: 1.05;
+            color: #fff;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .esg-desc {
+            font-size: 0.95rem;
+            color: #4a5c72;
+            line-height: 1.75;
+            margin-bottom: 32px;
+        }
+
+        .esg-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 36px;
+        }
+
+        .esg-features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .esg-features-list li::before {
+            content: '→';
+            color: var(--green);
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .esg-standards {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .std-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--border2);
+            padding: 4px 10px;
+            border-radius: 3px;
+        }
+
+        /* ESG Right side — terminal mockup */
+        .esg-visual {
+            position: relative;
+        }
+
+        .terminal {
+            background: #080b0f;
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(34, 217, 122, 0.05);
+        }
+
+        .terminal-bar {
+            background: var(--bg3);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .t-red {
+            background: #ff5f57;
+        }
+
+        .t-yellow {
+            background: #febc2e;
+        }
+
+        .t-green {
+            background: #28c840;
+        }
+
+        .terminal-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            margin-left: auto;
+            letter-spacing: 0.06em;
+        }
+
+        .terminal-body {
+            padding: 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            line-height: 2;
+        }
+
+        .t-muted {
+            color: #2a3a50;
+        }
+
+        .t-green-bright {
+            color: var(--green);
+        }
+
+        .t-amber {
+            color: var(--amber);
+        }
+
+        .t-white {
+            color: #e0eaf8;
+        }
+
+        .t-blue {
+            color: var(--blue);
+        }
+
+        .t-cursor {
+            display: inline-block;
+            width: 7px;
+            height: 13px;
+            background: var(--green);
+            animation: blink 1.2s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress bars inside terminal */
+        .t-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 2px 0;
+        }
+
+        .t-bar-track {
+            flex: 1;
+            height: 3px;
+            background: #1a2030;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .t-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--green);
+        }
+
+        /* ── AGENTES / SERVICIOS ── */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .agent-card {
+            background: var(--bg2);
+            padding: 32px 28px;
+            transition: background 0.2s;
+            cursor: default;
+        }
+
+        .agent-card:hover {
+            background: var(--bg3);
+        }
+
+        .agent-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .agent-id {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .agent-name {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .agent-desc {
+            font-size: 0.8rem;
+            color: #3a4d62;
+            line-height: 1.65;
+        }
+
+        /* ── DEMOS ── */
+        .demos-section {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .demo-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: block;
+            background: var(--bg);
+        }
+
+        .demo-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-3px);
+        }
+
+        .demo-card-top {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-bg-1 {
+            background: linear-gradient(135deg, #0a1520 0%, #0f2030 100%);
+        }
+
+        .demo-bg-2 {
+            background: linear-gradient(135deg, #0a1218 0%, #0d1e15 100%);
+        }
+
+        .demo-bg-3 {
+            background: linear-gradient(135deg, #0d1020 0%, #141828 100%);
+        }
+
+        .demo-card-body {
+            padding: 24px;
+        }
+
+        .demo-sector {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .demo-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .demo-desc {
+            font-size: 0.8rem;
+            color: #3a4d62;
+            line-height: 1.6;
+        }
+
+        .demo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-top: 16px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .demo-card:hover .demo-link {
+            opacity: 1;
+        }
+
+        /* ── PROCESO ── */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 60px;
+            border: 1px solid var(--border);
+        }
+
+        .process-step {
+            background: var(--bg2);
+            padding: 40px 32px;
+        }
+
+        .step-num {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--border2);
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .step-desc {
+            font-size: 0.82rem;
+            color: #3a4d62;
+            line-height: 1.7;
+        }
+
+        /* ── CONTACT ── */
+        .contact-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-inner h2 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+        }
+
+        .contact-inner .section-sub {
+            max-width: none;
+            margin: 0 auto 40px;
+        }
+
+        .contact-email {
+            font-family: 'DM Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            color: var(--green);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(34, 217, 122, 0.3);
+            padding-bottom: 3px;
+            transition: border-color 0.2s;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .contact-email:hover {
+            border-color: var(--green);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 40px 48px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-logo span {
+            color: var(--green);
+        }
+
+        .footer-tagline {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .footer-email {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-email:hover {
+            color: var(--green);
+        }
+
+        /* ── ANIMATIONS ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            nav {
+                padding: 16px 24px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .hero {
+                padding: 100px 24px 60px;
+            }
+
+            .hero-metrics {
+                gap: 28px;
+                flex-wrap: wrap;
+            }
+
+            .section {
+                padding: 72px 24px;
+            }
+
+            .esg-inner {
+                grid-template-columns: 1fr;
+                padding: 72px 24px;
+                gap: 48px;
+            }
+
+            .agents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .demos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 14px 20px;
+            }
+
+            .nav-links a:not(.nav-cta) {
+                display: none;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="main-nav">
+        <a href="#" class="nav-logo">nodo<span>8</span></a>
+        <div class="nav-links">
+            <a href="#plataforma">Plataforma ESG</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#demos">Demos</a>
+            <a href="#contacto" class="nav-cta">Contactar</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Consultoría en IA aplicada</div>
+            <h1>Inteligencia<br><em>aplicada</em> a<br>procesos reales.</h1>
+            <p class="hero-sub">
+                Automatizamos auditorías, análisis regulatorios y operaciones complejas mediante agentes de IA
+                entrenados sobre tus propios datos y estándares.
+            </p>
+            <div class="hero-actions">
+                <a href="#plataforma" class="btn-primary">Ver Plataforma ESG →</a>
+                <a href="#contacto" class="btn-ghost">Hablemos de tu proceso</a>
+            </div>
+            <div class="hero-metrics">
+                <div class="metric-item">
+                    <div class="metric-num">5<span>×</span></div>
+                    <div class="metric-label">Agentes IA especializados</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-num">GRI<span>.</span></div>
+                    <div class="metric-label">Estándares internacionales</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-num">3<span>+</span></div>
+                    <div class="metric-label">Verticales implementadas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLATAFORMA ESG — FEATURE SECTION -->
+    <section class="esg-feature" id="plataforma">
+        <div class="esg-inner">
+            <!-- Left -->
+            <div class="fade-in">
+                <span class="esg-badge">Producto · Plataforma ESG</span>
+                <div class="esg-title">Reportes ESG<br>automáticos con<br>estándar GRI.</div>
+                <p class="esg-desc">
+                    La primera plataforma que orquesta 5 agentes de IA especializados para generar auditorías ESG
+                    completas. Cada agente analiza su dimensión, el equipo humano valida, y el sistema produce el
+                    informe ejecutivo listo para presentar.
+                </p>
+                <ul class="esg-features-list">
+                    <li>5 agentes en secuencia: ambiental, social, gobernanza, regulatorio y consolidación</li>
+                    <li>Control humano obligatorio en cada paso — no hay automatización ciega</li>
+                    <li>Gate A y Gate B de aprobación formal con trazabilidad completa</li>
+                    <li>Informes PDF ejecutivos con dashboard de métricas incluido</li>
+                    <li>Documentación subida por el equipo, analizada con IA multimodal</li>
+                </ul>
+                <div class="esg-standards">
+                    <span class="std-tag">GRI Universal</span>
+                    <span class="std-tag">GHG Protocol</span>
+                    <span class="std-tag">CSRD</span>
+                    <span class="std-tag">SASB</span>
+                    <span class="std-tag">TCFD</span>
+                    <span class="std-tag">ISO 14064</span>
+                </div>
+            </div>
+            <!-- Right - Terminal -->
+            <div class="esg-visual fade-in">
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dot t-red"></div>
+                        <div class="terminal-dot t-yellow"></div>
+                        <div class="terminal-dot t-green"></div>
+                        <span class="terminal-title">nodo8 · ESG Agent Runner v3.1</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="t-muted">── EXPEDIENTE: EXP-7A3F2C ──</div>
+                        <div style="height:8px"></div>
+                        <div><span class="t-green-bright">✓</span> <span class="t-white">Gate A aprobado</span> <span
+                                class="t-muted">→ ACTIVE</span></div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-amber">→</span> <span class="t-white">Agente 01</span> <span
+                                class="t-muted">/ Ebisu · Environmental</span></div>
+                        <div class="t-progress">
+                            <span class="t-muted" style="width:140px;font-size:10px">Emisiones GHG</span>
+                            <div class="t-bar-track">
+                                <div class="t-bar-fill" style="width:88%"></div>
+                            </div>
+                            <span class="t-green-bright" style="font-size:10px">88%</span>
+                        </div>
+                        <div class="t-progress">
+                            <span class="t-muted" style="width:140px;font-size:10px">Agua y residuos</span>
+                            <div class="t-bar-track">
+                                <div class="t-bar-fill" style="width:74%;background:var(--amber)"></div>
+                            </div>
+                            <span class="t-amber" style="font-size:10px">74%</span>
+                        </div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-green-bright">✓</span> <span class="t-white">Agente 02</span> <span
+                                class="t-muted">/ Soli · Social — VALIDADO</span></div>
+                        <div><span class="t-green-bright">✓</span> <span class="t-white">Agente 03</span> <span
+                                class="t-muted">/ Gov · Governance — VALIDADO</span></div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-blue">◉</span> <span class="t-white">Agente 04</span> <span
+                                class="t-muted">/ Regi · Regulatory</span></div>
+                        <div class="t-muted" style="padding-left:16px;font-size:10px">Mapeando CSRD + SASB...</div>
+                        <div class="t-muted" style="padding-left:16px;font-size:10px">Analizando materialidad doble
+                        </div>
+                        <div style="height:8px"></div>
+                        <div><span class="t-muted">$</span> <span class="t-white">Generando informe
+                                ejecutivo</span><span class="t-cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS / AGENTES -->
+    <section class="section" id="servicios">
+        <div style="max-width:1200px; margin:0 auto;">
+            <div class="fade-in">
+                <div class="section-label">Capacidades</div>
+                <h2>Lo que <em>hacemos</em><br>para tu organización.</h2>
+                <p class="section-sub">Más allá de la plataforma ESG, aplicamos IA agentica a procesos de alta
+                    complejidad en distintas industrias.</p>
+            </div>
+
+            <div class="agents-grid fade-in">
+                <div class="agent-card">
+                    <div class="agent-icon" style="background:rgba(34,217,122,0.1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22d97a" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" />
+                            <path d="M12 6v6l4 2" />
+                            <path d="M2 12h2M20 12h2M12 2v2M12 20v2" />
+                        </svg>
+                    </div>
+                    <div class="agent-id">ESG & Sustentabilidad</div>
+                    <div class="agent-name">Reportes GRI Automáticos</div>
+                    <p class="agent-desc">Plataforma completa con 5 agentes especializados que generan informes ESG bajo
+                        estándares GRI, GHG Protocol y CSRD con validación humana en cada paso.</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-icon" style="background:rgba(77,168,255,0.1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4da8ff" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18" />
+                            <path d="M9 21V9" />
+                            <path d="M7 6h.01M12 6h.01" />
+                        </svg>
+                    </div>
+                    <div class="agent-id">Legal & Jurídico</div>
+                    <div class="agent-name">Inteligencia Procesal</div>
+                    <p class="agent-desc">Cálculos jurídicos, lectura de sentencias, liquidaciones y gestión de
+                        expedientes. Precisión profesional sin trabajo manual repetitivo.</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-icon" style="background:rgba(240,168,48,0.1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f0a830" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 20h20" />
+                            <path d="M9 20V8l-4 4" />
+                            <path d="M15 20V4l4 4" />
+                            <path d="M9 12h6" />
+                        </svg>
+                    </div>
+                    <div class="agent-id">Gobierno & Auditoría</div>
+                    <div class="agent-name">Trazabilidad Documental</div>
+                    <p class="agent-desc">Detección automática de errores en PDFs masivos, control de trámites y
+                        trazabilidad de procesos en organismos públicos y auditores externos.</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-icon" style="background:rgba(160,100,255,0.1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a064ff" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+                        </svg>
+                    </div>
+                    <div class="agent-id">Operaciones Internas</div>
+                    <div class="agent-name">Integración Inteligente</div>
+                    <p class="agent-desc">Conectamos tus herramientas actuales mediante APIs, procesamos correos,
+                        actualizamos CRMs y automatizamos flujos de trabajo complejos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMOS -->
+    <section class="section demos-section" id="demos">
+        <div style="max-width:1200px; margin:0 auto;">
+            <div class="fade-in">
+                <div class="section-label">Casos en acción</div>
+                <h2>Plataformas <em>funcionando</em><br>hoy.</h2>
+                <p class="section-sub">Demos en vivo de aplicaciones que ya operan en distintos sectores.</p>
+            </div>
+
+            <div class="demos-grid fade-in">
+                <!-- Card 1: Legal - NO link, "Próximamente" -->
+                <div class="demo-card" style="cursor:default;">
+                    <div class="demo-card-top demo-bg-2">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4da8ff" stroke-width="1"
+                            stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18" />
+                            <path d="M9 21V9" />
+                            <path d="M7 6h.01M12 6h.01" />
+                        </svg>
+                    </div>
+                    <div class="demo-card-body">
+                        <div class="demo-sector">Sector Legal</div>
+                        <div class="demo-title">Motor de Razonamiento Jurídico</div>
+                        <p class="demo-desc">Análisis automático de sentencias, cálculo de liquidaciones y gestión de
+                            expedientes procesales con trazabilidad completa.</p>
+                        <span
+                            style="display:inline-block;margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;">Acceso
+                            bajo solicitud</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Gobierno - NO link, "Próximamente" -->
+                <div class="demo-card" style="cursor:default;">
+                    <div class="demo-card-top demo-bg-1">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f0a830" stroke-width="1"
+                            stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+                            <path d="M2 20h20" />
+                            <path d="M9 20V8l-4 4" />
+                            <path d="M15 20V4l4 4" />
+                            <path d="M9 12h6" />
+                        </svg>
+                    </div>
+                    <div class="demo-card-body">
+                        <div class="demo-sector">Sector Gobierno</div>
+                        <div class="demo-title">Sistema de Auditoría Documental</div>
+                        <p class="demo-desc">Detección automática de inconsistencias en volúmenes masivos de documentos
+                            públicos, con derivación inteligente por tipo de error.</p>
+                        <span
+                            style="display:inline-block;margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;">Acceso
+                            bajo solicitud</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: ESG - WITH link -->
+                <a class="demo-card" href="https://ai-agent-factory-esg.vercel.app" target="_blank">
+                    <div class="demo-card-top demo-bg-3">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22d97a" stroke-width="1"
+                            stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M12 3a9 9 0 0 1 0 18" />
+                            <path d="M3.6 9h16.8M3.6 15h16.8" />
+                        </svg>
+                    </div>
+                    <div class="demo-card-body">
+                        <div class="demo-sector">Plataforma ESG</div>
+                        <div class="demo-title">Nodo8 ESG · v3.1</div>
+                        <p class="demo-desc">5 agentes IA para auditorías completas bajo estándar GRI. Gate A/B, PDFs
+                            ejecutivos y dashboard de métricas.</p>
+                        <span class="demo-link">Acceder →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="section" style="border-top:1px solid var(--border);">
+        <div style="max-width:1200px; margin:0 auto;">
+            <div class="fade-in">
+                <div class="section-label">Metodología</div>
+                <h2>Tres pasos.<br><em>Un resultado</em> concreto.</h2>
+            </div>
+
+            <div class="process-steps fade-in">
+                <div class="process-step">
+                    <div class="step-num">01</div>
+                    <div class="step-title">Entender el proceso</div>
+                    <p class="step-desc">Antes de escribir una línea de código, mapeamos tus reglas de negocio, flujos
+                        reales y puntos de fricción. El problema bien definido es la mitad de la solución.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">02</div>
+                    <div class="step-title">Construir los agentes</div>
+                    <p class="step-desc">Implementamos agentes IA especializados entrenados sobre tus propios documentos
+                        y estándares. Cada agente tiene un scope definido y salidas verificables.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">03</div>
+                    <div class="step-title">Integrar con control humano</div>
+                    <p class="step-desc">Los agentes trabajan, los humanos validan. Ninguna decisión crítica es
+                        automática. La IA acelera el trabajo, el equipo mantiene la responsabilidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact-section" id="contacto">
+        <div class="contact-inner fade-in">
+            <div class="section-label" style="justify-content:center;">Contacto</div>
+            <h2>¿Tenés un proceso<br>que <em>merezca</em> IA?</h2>
+            <p class="section-sub" style="margin-bottom:32px;">
+                Contanos qué hace tu organización. Si podemos ayudarte, te lo decimos directo. Si no podemos, también.
+            </p>
+            <a href="mailto:nodo8consultancy@gmail.com" class="contact-email">nodo8consultancy@gmail.com</a>
+            <br>
+            <a href="mailto:nodo8consultancy@gmail.com" class="btn-primary">Escribirnos ahora →</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#" class="footer-logo">nodo<span>8</span></a>
+        <span class="footer-tagline">Consultoría en inteligencia artificial aplicada</span>
+        <a href="mailto:nodo8consultancy@gmail.com" class="footer-email">nodo8consultancy@gmail.com</a>
+    </footer>
+
+    <script>
+        // Nav scroll effect
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Intersection observer for fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
