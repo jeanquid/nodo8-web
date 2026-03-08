@@ -7,7 +7,7 @@
     <title>Nodo8 — Inteligencia aplicada a procesos complejos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -264,7 +264,7 @@
             border-top: 1px solid var(--border);
         }
 
-        .metric-item {}
+
 
         .metric-num {
             font-family: 'Fraunces', serif;
@@ -550,7 +550,7 @@
         /* ── AGENTES / SERVICIOS ── */
         .agents-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -613,7 +613,7 @@
 
         .demos-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
             margin-top: 56px;
         }
@@ -904,477 +904,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* ── IIA VISUALIZATION STYLES ── */
-        #iia {
-            --iia-bg: #060a0f;
-            --iia-surface: #0d1520;
-            --iia-border: #1a2a3a;
-            --iia-accent: #00e5a0;
-            --iia-text: #c8d8e8;
-            --iia-text-dim: #5a7a90;
-            --iia-text-bright: #f0f8ff;
-            background: var(--iia-bg);
-            position: relative;
-            padding: 80px 0;
-            border-top: 1px solid var(--iia-border);
-        }
-
-        #iia .wrapper-iia {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-            position: relative;
-            z-index: 1;
-        }
-
-        #iia .header-iia {
-            margin-bottom: 56px;
-        }
-
-        #iia .badge-iia {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--iia-accent);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            border: 1px solid rgba(0, 229, 160, 0.3);
-            padding: 6px 12px;
-            border-radius: 2px;
-            margin-bottom: 20px;
-        }
-
-        #iia .badge-iia::before {
-            content: '▶';
-            font-size: 8px;
-        }
-
-        #iia h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(32px, 5vw, 54px);
-            color: var(--iia-text-bright);
-            line-height: 1.05;
-            margin-bottom: 16px;
-        }
-
-        #iia h3 em {
-            font-style: italic;
-            color: var(--iia-accent);
-        }
-
-        #iia .subtitle-iia {
-            font-size: 15px;
-            color: var(--iia-text-dim);
-            max-width: 560px;
-            line-height: 1.6;
-        }
-
-        #iia .flow-iia {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            margin-bottom: 56px;
-            overflow-x: auto;
-            padding: 24px 0;
-        }
-
-        #iia .flow-node-iia {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        #iia .flow-node-iia:hover {
-            transform: translateY(-3px);
-        }
-
-        #iia .flow-node-iia.active .node-circle-iia {
-            box-shadow: 0 0 0 2px var(--iia-accent), 0 0 24px rgba(0, 229, 160, 0.4);
-        }
-
-        #iia .node-circle-iia {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 1px solid var(--iia-border);
-            background: var(--iia-surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        #iia .node-label-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--iia-text-dim);
-            text-align: center;
-            max-width: 70px;
-        }
-
-        #iia .flow-arrow-iia {
-            flex-shrink: 0;
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(90deg, var(--iia-border), rgba(0, 229, 160, 0.4), var(--iia-border));
-            position: relative;
-            margin: 0 4px;
-            align-self: center;
-            margin-bottom: 28px;
-        }
-
-        #iia .flow-arrow-iia::after {
-            content: '▶';
-            position: absolute;
-            right: -6px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(0, 229, 160, 0.4);
-            font-size: 8px;
-        }
-
-        #iia .io-node-iia {
-            flex-shrink: 0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--iia-text-dim);
-            border: 1px dashed var(--iia-border);
-            padding: 8px 12px;
-            border-radius: 2px;
-            text-align: center;
-            align-self: center;
-            margin-bottom: 28px;
-        }
-
-        #iia .grid-iia {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 2px;
-            margin-bottom: 56px;
-        }
-
-        @media (max-width: 900px) {
-            #iia .grid-iia {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        #iia .tab-iia {
-            background: var(--iia-surface);
-            border: 1px solid var(--iia-border);
-            cursor: pointer;
-            padding: 16px 14px;
-            transition: all 0.15s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #iia .tab-iia::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--a-color, var(--iia-accent));
-            transform: scaleX(0);
-            transition: transform 0.2s;
-            transform-origin: left;
-        }
-
-        #iia .tab-iia.active::before,
-        #iia .tab-iia:hover::before {
-            transform: scaleX(1);
-        }
-
-        #iia .tab-iia.active {
-            border-color: rgba(255, 255, 255, 0.1);
-            background: #111e2d;
-        }
-
-        #iia .tab-num-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--a-color, var(--iia-accent));
-            margin-bottom: 6px;
-            opacity: 0.8;
-        }
-
-        #iia .tab-name-iia {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--iia-text-bright);
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-
-        #iia .tab-role-iia {
-            font-size: 11px;
-            color: var(--iia-text-dim);
-            font-style: italic;
-        }
-
-        #iia .detail-panel-iia {
-            background: var(--iia-surface);
-            border: 1px solid var(--iia-border);
-            padding: 36px;
-            margin-bottom: 56px;
-            animation: fadeInIia 0.2s ease;
-        }
-
-        @keyframes fadeInIia {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #iia .detail-header-iia {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            gap: 24px;
-        }
-
-        #iia .detail-badge-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--a-color);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        #iia .detail-title-iia {
-            font-family: 'DM Serif Display', serif;
-            font-size: 28px;
-            color: var(--iia-text-bright);
-            margin-bottom: 4px;
-        }
-
-        #iia .detail-subtitle-iia {
-            font-size: 13px;
-            color: var(--iia-text-dim);
-            font-style: italic;
-        }
-
-        #iia .detail-meta-iia {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        #iia .meta-chip-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 6px 12px;
-            border-radius: 2px;
-            border: 1px solid var(--iia-border);
-        }
-
-        #iia .meta-chip-iia.in {
-            color: #4d9eff;
-            border-color: rgba(77, 158, 255, 0.3);
-            background: rgba(77, 158, 255, 0.05);
-        }
-
-        #iia .meta-chip-iia.out {
-            color: #00e5a0;
-            border-color: rgba(0, 229, 160, 0.3);
-            background: rgba(0, 229, 160, 0.05);
-        }
-
-        #iia .meta-chip-iia.time {
-            color: #f0a830;
-            border-color: rgba(240, 168, 48, 0.3);
-            background: rgba(240, 168, 48, 0.05);
-        }
-
-        #iia .detail-grid-iia {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 700px) {
-            #iia .detail-grid-iia {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        #iia .detail-section-iia {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px;
-        }
-
-        #iia .detail-section-iia h4 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--iia-text-dim);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--iia-border);
-        }
-
-        #iia .item-list-iia {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        #iia .item-list-iia li {
-            font-size: 13px;
-            color: var(--iia-text);
-            line-height: 1.5;
-            padding-left: 16px;
-            position: relative;
-        }
-
-        #iia .item-list-iia li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--a-color);
-            font-size: 11px;
-        }
-
-        #iia .gate-box-iia {
-            grid-column: 1 / -1;
-            border: 1px solid rgba(240, 168, 48, 0.3);
-            background: rgba(240, 168, 48, 0.04);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        #iia .gate-text-iia {
-            font-size: 13px;
-            color: #f0a830;
-            line-height: 1.5;
-        }
-
-        #iia .gate-label-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: rgba(240, 168, 48, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 4px;
-        }
-
-        #iia .stats-iia {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            margin-bottom: 56px;
-        }
-
-        @media (max-width: 700px) {
-            #iia .stats-iia {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        #iia .stat-card-iia {
-            background: var(--iia-surface);
-            border: 1px solid var(--iia-border);
-            padding: 20px 24px;
-        }
-
-        #iia .stat-num-iia {
-            font-family: 'DM Serif Display', serif;
-            font-size: 36px;
-            color: var(--iia-accent);
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-
-        #iia .stat-label-iia {
-            font-size: 12px;
-            color: var(--iia-text-dim);
-            line-height: 1.4;
-        }
-
-        #iia .prompt-box-iia {
-            display: none;
-            margin-top: 12px;
-            background: #030810;
-            border: 1px solid var(--iia-border);
-            padding: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #7a9ab0;
-            line-height: 1.7;
-            max-height: 300px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-
-        #iia .prompt-box-iia.open {
-            display: block;
-        }
-
-        #iia .toggle-btn-iia {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--iia-text-dim);
-            background: none;
-            border: 1px solid var(--iia-border);
-            padding: 8px 16px;
-            cursor: pointer;
-            letter-spacing: 0.08em;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        #iia .toggle-btn-iia:hover {
-            color: var(--iia-text-bright);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .ia1 {
-            --a-color: #00e5a0;
-        }
-
-        .ia2 {
-            --a-color: #4d9eff;
-        }
-
-        .ia3 {
-            --a-color: #ff6b35;
-        }
-
-        .ia4 {
-            --a-color: #c47fff;
-        }
-
-        .ia5 {
-            --a-color: #f0c040;
-        }
     </style>
 </head>
 
@@ -1384,11 +913,10 @@
     <nav id="main-nav">
         <a href="#" class="nav-logo">nodo<span>8</span></a>
         <div class="nav-links">
-            <a href="#iia">IIA Factory</a>
-            <a href="#plataforma">Plataforma ESG</a>
+            <a href="#plataforma">ESG</a>
+            <a href="#demos">Productos</a>
             <a href="#servicios">Servicios</a>
-            <a href="#demos">Demos</a>
-            <a href="#contacto" class="nav-cta">Contactar</a>
+            <a href="#contacto" class="nav-cta">Contacto →</a>
         </div>
     </nav>
 
@@ -1400,12 +928,12 @@
             <div class="hero-tag">Consultoría en IA aplicada</div>
             <h1>Inteligencia<br><em>aplicada</em> a<br>procesos reales.</h1>
             <p class="hero-sub">
-                Automatizamos auditorías, análisis regulatorios y operaciones complejas mediante agentes de IA
-                entrenados sobre tus propios datos y estándares.
+                Automatizamos flujos de trabajo complejos con agentes de IA especializados. No prometemos transformación
+                digital genérica — construimos sistemas que hacen trabajo real.
             </p>
             <div class="hero-actions">
-                <a href="#iia" class="btn-primary">IIA Factory Neuquén →</a>
-                <a href="#plataforma" class="btn-ghost">Plataforma ESG</a>
+                <a href="#plataforma" class="btn-primary">Ver Plataforma ESG →</a>
+                <a href="#contacto" class="btn-ghost">Hablemos de tu proceso</a>
             </div>
             <div class="hero-metrics">
                 <div class="metric-item">
@@ -1459,7 +987,7 @@
                         <div class="terminal-dot t-red"></div>
                         <div class="terminal-dot t-yellow"></div>
                         <div class="terminal-dot t-green"></div>
-                        <span class="terminal-title">nodo8 · ESG Agent Runner v3.1</span>
+                        <span class="terminal-title">nodo8 · Gemini 1.5 · Agent Runner</span>
                     </div>
                     <div class="terminal-body">
                         <div class="t-muted">── EXPEDIENTE: EXP-7A3F2C ──</div>
@@ -1571,8 +1099,8 @@
             </div>
 
             <div class="demos-grid fade-in">
-                <!-- Card 1: IIA Factory - NEW -->
-                <a class="demo-card" href="https://ia-agent-factory-iia.vercel.app" target="_blank">
+                <!-- Card 1: IIA Factory -->
+                <div class="demo-card" style="opacity:0.65;">
                     <div class="demo-card-top demo-bg-4">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="1"
                             stroke-linecap="round" stroke-linejoin="round" opacity="0.8">
@@ -1580,12 +1108,13 @@
                         </svg>
                     </div>
                     <div class="demo-card-body">
-                        <div class="demo-sector">Sector Oil & Gas</div>
-                        <div class="demo-title">IIA Factory · Neuquén</div>
-                        <p class="demo-desc">Orquestación de 5 agentes para Estudios de Impacto Ambiental. Cumplimiento
-                            Decreto 2656/99 y Res. 105/92.</p>
-                        <span class="demo-link">Acceder →</span>
-                </a>
+                        <div class="demo-sector">Oil &amp; Gas · Neuquén</div>
+                        <div class="demo-title">IIA Factory</div>
+                        <p class="demo-desc">5 agentes IA para generar Estudios de Impacto Ambiental conformes al
+                            Decreto Provincial 2656/99. De semanas a horas.</p>
+                        <span class="demo-link" style="color:var(--muted);">Próximamente →</span>
+                    </div>
+                </div>
 
                 <!-- Card 2: Gobierno -->
                 <a class="demo-card" href="https://app-desde-antigravity-auditoria-con-six.vercel.app" target="_blank">
@@ -1700,99 +1229,7 @@
 
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // IIA VISUALIZATION LOGIC
-        const iiaAgents = [
-            {
-                cls: 'ia1', color: '#00e5a0', num: 'AGENTE 01', name: 'Caracterizador del Proyecto', role: '"El Técnico"', time: '45–90 seg',
-                inputs: ['Tipo de proyecto (pozo, ducto...)', 'Coordenadas Gauss-Krüger POSGAR07', 'Descripción libre del alcance'],
-                outputs: ['Sección 1 — Datos Generales', 'Sección 3 — Ubicación y Descripción', 'Normativa aplicable completa'],
-                gate: 'El profesional verifica coordenadas, ajusta datos de la empresa y confirma el alcance antes de continuar.',
-                sections: ['1. Datos Generales', '3. Ubicación y Descripción del Proyecto'],
-                prompt: `Sos un ingeniero ambiental especialista en proyectos hidrocarburíferos en Neuquén. Generás las secciones técnicas iniciales del EIA conforme al Decreto N° 2656/99.`
-            },
-            {
-                cls: 'ia2', color: '#4d9eff', num: 'AGENTE 02', name: 'Caracterizador Ambiental', role: '"El Ecólogo"', time: '60–120 seg',
-                inputs: ['Datos técnicos del A1', 'Datos de campo (opcional)'],
-                outputs: ['Sección 4 — Línea de Base Ambiental', 'Medio físico, biótico y socioeconómico'],
-                gate: 'El biólogo valida la línea de base con sus datos de relevamiento de campo y ajusta especies o datos hídricos.',
-                sections: ['4. Línea de Base Ambiental'],
-                prompt: `Sos un especialista en ecología con profundo conocimiento de la Cuenca Neuquina. Identificás flora, fauna y componentes sensibles.`
-            },
-            {
-                cls: 'ia3', color: '#ff6b35', num: 'AGENTE 03', name: 'Evaluador de Impactos', role: '"El Analista"', time: '90–180 seg',
-                inputs: ['Actividades del proyecto (A1)', 'Componentes sensibles (A2)'],
-                outputs: ['Sección 5 — Identificación y Evaluación', 'Matriz de impactos por actividad'],
-                gate: 'El especialista revisa la clasificación de impactos Críticos y Severos antes de generar los planes de gestión.',
-                sections: ['5. Identificación y Evaluación de Impactos'],
-                prompt: `Evaluás impactos usando metodología matricial estándar Neuquén (Decreto 2656/99). Clasificás: Crítico / Severo / Moderado.`
-            },
-            {
-                cls: 'ia4', color: '#c47fff', num: 'AGENTE 04', name: 'Planificador de Gestión', role: '"El Mitigador"', time: '90–180 seg',
-                inputs: ['Impactos identificados (A3)', 'Condicionantes especiales'],
-                outputs: ['Sección 6 — Plan de Gestión Ambiental', 'Sección 7 — Plan de Contingencias', 'Sección 8 — Plan de Monitoreo'],
-                gate: 'La empresa ajusta responsables, frecuencias de monitoreo y protocolos de emergencia actualizados.',
-                sections: ['6. PGA', '7. Contingencias', '8. Monitoreo'],
-                prompt: `Generás los planes de gestión, contingencias y monitoreo obligatorios para proyectos oil & gas en la provincia.`
-            },
-            {
-                cls: 'ia5', color: '#f0c040', num: 'AGENTE 05', name: 'Compilador Final', role: '"El Editor"', time: '60–120 seg',
-                inputs: ['Outputs de A1, A2, A3 y A4', 'Datos de portada'],
-                outputs: ['Portada e Índice', 'Sección 2 — Resumen Ejecutivo', 'Bibliografía y Anexos'],
-                gate: 'Revisión final del documento completo. Agregar planos, firmas y visado del Colegio de Profesionales.',
-                sections: ['2. Resumen Ejecutivo', '9. Bibliografía', '10. Anexos'],
-                prompt: `Sos el editor final. Unificás tono, redactás el resumen ejecutivo y verificás la coherencia de todo el EIA.`
-            }
-        ];
 
-        function selectIiaAgent(idx) {
-            const a = iiaAgents[idx];
-            document.querySelectorAll('#iia .tab-iia').forEach((t, i) => t.classList.toggle('active', i === idx));
-            document.querySelectorAll('#iia .flow-node-iia').forEach((n, i) => n.classList.toggle('active', i === idx));
-
-            const panel = document.getElementById('iia-detail');
-            panel.className = `detail-panel-iia ${a.cls}`;
-            panel.style.setProperty('--a-color', a.color);
-
-            panel.innerHTML = `
-                <div class="detail-header-iia">
-                    <div>
-                        <div class="detail-badge-iia">${a.num}</div>
-                        <div class="detail-title-iia">${a.name}</div>
-                        <div class="detail-subtitle-iia">${a.role}</div>
-                    </div>
-                    <div class="detail-meta-iia">
-                        <div class="meta-chip-iia in">INPUT: ${a.inputs.length} fuentes</div>
-                        <div class="meta-chip-iia out">OUTPUT: ${a.outputs.length} elementos</div>
-                        <div class="meta-chip-iia time">⏱ ${a.time}</div>
-                    </div>
-                </div>
-                <div class="detail-grid-iia">
-                    <div class="detail-section-iia">
-                        <h4>Recibe como input</h4>
-                        <ul class="item-list-iia">${a.inputs.map(i => `<li>${i}</li>`).join('')}</ul>
-                    </div>
-                    <div class="detail-section-iia">
-                        <h4>Genera como output</h4>
-                        <ul class="item-list-iia">${a.outputs.map(o => `<li>${o}</li>`).join('')}</ul>
-                    </div>
-                    <div class="gate-box-iia">
-                        <div>
-                            <div class="gate-label-iia">👤 Gate humano — validación</div>
-                            <div class="gate-text-iia">${a.gate}</div>
-                        </div>
-                    </div>
-                    <div class="detail-section-iia">
-                        <h4>Secciones que produce</h4>
-                        <ul class="item-list-iia">${a.sections.map(s => `<li>${s}</li>`).join('')}</ul>
-                    </div>
-                </div>
-                <div style="margin-top:24px">
-                    <button class="toggle-btn-iia" onclick="this.nextElementSibling.classList.toggle('open')">{ } Ver extracto del prompt</button>
-                    <div class="prompt-box-iia">${a.prompt}</div>
-                </div>
-            `;
-        }
-        selectIiaAgent(0);
     </script>
 </body>
 
