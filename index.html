@@ -547,10 +547,63 @@
             background: var(--green);
         }
 
+        /* ── SAFETYVISION — FEATURE ── */
+        .sv-feature {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .sv-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 48px;
+            align-items: center;
+        }
+
+        .sv-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: rgba(77, 168, 255, 0.12);
+            color: var(--blue);
+            border: 1px solid rgba(77, 168, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .sv-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            line-height: 1.05;
+            color: #fff;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .sv-desc {
+            font-size: 0.95rem;
+            color: #4a5c72;
+            line-height: 1.75;
+            margin-bottom: 32px;
+        }
+
+        .sv-visual {
+            position: relative;
+        }
+
         /* ── AGENTES / SERVICIOS ── */
         .agents-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -613,7 +666,7 @@
 
         .demos-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 24px;
             margin-top: 56px;
         }
@@ -658,6 +711,10 @@
 
         .demo-bg-4 {
             background: linear-gradient(135deg, #0a1a10 0%, #0d2018 100%);
+        }
+
+        .demo-bg-5 {
+            background: linear-gradient(135deg, #0a1020 0%, #101a30 100%);
         }
 
         .demo-card-body {
@@ -868,8 +925,18 @@
                 gap: 48px;
             }
 
+            .sv-inner {
+                grid-template-columns: 1fr;
+                padding: 72px 24px;
+                gap: 48px;
+            }
+
+            .sv-inner > .sv-visual {
+                order: -1;
+            }
+
             .agents-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
 
             .demos-grid {
@@ -899,10 +966,6 @@
             h1 {
                 letter-spacing: -2px;
             }
-
-            .agents-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -914,6 +977,7 @@
         <a href="#" class="nav-logo">nodo<span>8</span></a>
         <div class="nav-links">
             <a href="#plataforma">ESG</a>
+            <a href="#safetyvision">SafetyVision</a>
             <a href="#demos">Productos</a>
             <a href="#servicios">Servicios</a>
             <a href="#contacto" class="nav-cta">Contacto →</a>
@@ -945,7 +1009,11 @@
                     <div class="metric-label">Impacto Ambiental</div>
                 </div>
                 <div class="metric-item">
-                    <div class="metric-num">3<span>+</span></div>
+                    <div class="metric-num">SHI<span>.</span></div>
+                    <div class="metric-label">Seguridad Industrial</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-num">4<span>+</span></div>
                     <div class="metric-label">Verticales activas</div>
                 </div>
             </div>
@@ -1031,6 +1099,77 @@
         </div>
     </section>
 
+    <!-- SAFETYVISION AI — FEATURE SECTION -->
+    <section class="sv-feature" id="safetyvision">
+        <div class="sv-inner">
+            <!-- Left - Terminal -->
+            <div class="sv-visual fade-in">
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dot t-red"></div>
+                        <div class="terminal-dot t-yellow"></div>
+                        <div class="terminal-dot t-green"></div>
+                        <span class="terminal-title">safetyvision · Gemini 2.0 Flash · Análisis</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="t-muted">── INSPECCIÓN: INS-8F2A1D ──</div>
+                        <div style="height:8px"></div>
+                        <div><span class="t-blue">◉</span> <span class="t-white">Validando imagen...</span> <span
+                                class="t-green-bright">INDUSTRIAL ✓</span></div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-amber">→</span> <span class="t-white">Gemini Vision</span> <span
+                                class="t-muted">/ Analizando riesgos</span></div>
+                        <div style="height:6px"></div>
+                        <div style="padding-left:16px;">
+                            <div><span style="color:#ef4444;">▸</span> <span class="t-white">ALTO</span> <span class="t-muted">Operario sin casco IRAM 3620</span></div>
+                            <div><span style="color:#f59e0b;">▸</span> <span class="t-white">MEDIO</span> <span class="t-muted">Cables expuestos en zona húmeda</span></div>
+                            <div><span style="color:#22c55e;">▸</span> <span class="t-white">BAJO</span> <span class="t-muted">Señalización parcialmente obstruida</span></div>
+                        </div>
+                        <div style="height:8px"></div>
+                        <div class="t-progress">
+                            <span class="t-muted" style="width:140px;font-size:10px">Confianza IA</span>
+                            <div class="t-bar-track">
+                                <div class="t-bar-fill" style="width:92%"></div>
+                            </div>
+                            <span class="t-green-bright" style="font-size:10px">92%</span>
+                        </div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-green-bright">✓</span> <span class="t-white">Alerta WhatsApp enviada</span> <span class="t-muted">→ Supervisor de turno</span></div>
+                        <div><span class="t-green-bright">✓</span> <span class="t-white">Tarea correctiva creada</span> <span class="t-muted">→ Plazo: 4hs</span></div>
+                        <div style="height:6px"></div>
+                        <div><span class="t-muted">$</span> <span class="t-white">Generando PDF de inspección</span><span class="t-cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right -->
+            <div class="fade-in">
+                <span class="sv-badge">Producto · Seguridad Industrial</span>
+                <div class="sv-title">Detección de<br>riesgos laborales<br>con visión IA.</div>
+                <p class="sv-desc">
+                    El operario saca una foto desde el celular. Gemini Vision detecta riesgos de seguridad, clasifica gravedad según normativa argentina (Ley 19.587, IRAM) y genera automáticamente la tarea correctiva con responsable y plazo.
+                </p>
+                <ul class="esg-features-list">
+                    <li>Foto desde celular → análisis de riesgos en segundos con Gemini Vision</li>
+                    <li>Clasificación automática: EPP faltante, condiciones inseguras, comportamientos</li>
+                    <li>Alertas automáticas por WhatsApp/Email vía n8n webhooks</li>
+                    <li>Tareas correctivas con plazos (Alto: 4hs, Medio: 24hs, Bajo: 48hs)</li>
+                    <li>Multi-empresa, multi-planta con aislamiento por tenant</li>
+                    <li>Reportes PDF descargables por inspección</li>
+                </ul>
+                <div class="esg-standards">
+                    <span class="std-tag">Ley 19.587</span>
+                    <span class="std-tag">Decreto 351/79</span>
+                    <span class="std-tag">IRAM 3620</span>
+                    <span class="std-tag">ISO 45001</span>
+                    <span class="std-tag">OSHA 1926</span>
+                </div>
+                <div style="margin-top:32px;">
+                    <a href="https://safetyvision-ai.vercel.app" target="_blank" class="btn-primary" style="background:var(--blue);color:#fff;">Acceder a SafetyVision →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- SERVICIOS / AGENTES -->
     <section class="section" id="servicios">
         <div style="max-width:1200px; margin:0 auto;">
@@ -1084,6 +1223,18 @@
                     <div class="agent-name">Integración Inteligente</div>
                     <p class="agent-desc">Conectamos tus herramientas actuales mediante APIs, procesamos correos,
                         actualizamos CRMs y automatizamos flujos de trabajo complejos.</p>
+                </div>
+                <div class="agent-card">
+                    <div class="agent-icon" style="background:rgba(77,168,255,0.1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4da8ff" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <div class="agent-id">Seguridad & Higiene</div>
+                    <div class="agent-name">SafetyVision AI</div>
+                    <p class="agent-desc">Detección de riesgos laborales con visión artificial. Foto desde el celular → análisis Gemini → alertas automáticas → tareas correctivas con plazos.</p>
                 </div>
             </div>
         </div>
@@ -1151,6 +1302,23 @@
                         <div class="demo-title">Nodo8 ESG · v3.1</div>
                         <p class="demo-desc">5 agentes IA para auditorías completas bajo estándar GRI. Gate A/B, PDFs
                             ejecutivos y dashboard de métricas.</p>
+                        <span class="demo-link">Acceder →</span>
+                    </div>
+                </a>
+
+                <!-- Card 4: SafetyVision AI -->
+                <a class="demo-card fade-in" href="https://safetyvision-ai.vercel.app" target="_blank">
+                    <div class="demo-card-top demo-bg-5">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4da8ff" stroke-width="1"
+                            stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <div class="demo-card-body">
+                        <div class="demo-sector">Seguridad Industrial</div>
+                        <div class="demo-title">SafetyVision AI</div>
+                        <p class="demo-desc">Detección de riesgos laborales con Gemini Vision. Foto → análisis IA → alerta automática → tarea correctiva.</p>
                         <span class="demo-link">Acceder →</span>
                     </div>
                 </a>
